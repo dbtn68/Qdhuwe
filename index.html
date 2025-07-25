@@ -1,100 +1,123 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Auth0 구글 로그인</title>
-  <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      padding: 20px;
-    }
-    .container {
-      text-align: center;
-      max-width: 90%;
-    }
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 30px;
-      font-weight: 600;
-    }
-    button {
-      background-color: #f0f0f0;
-      color: #333;
-      border: none;
-      padding: 14px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e2e2e2;
-    }
-    pre {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 20px;
-      text-align: left;
-      font-size: 0.85rem;
-      overflow-x: auto;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auth0 구글 로그인</title>
+  <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 90%;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+    button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e2e2e2;
+    }
+    pre {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: left;
+      font-size: 0.85rem;
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Google로 로그인</h2>
-    <button id="login">구글 계정으로 시작하기</button>
-    <pre id="result"></pre>
-  </div>
+  <div class="container">
+    <h2>Google로 로그인</h2>
+    <button id="login">구글 계정으로 시작하기</button>
+    <pre id="result"></pre>
+  </div>
 
-  <script>
-    var webAuth = new auth0.WebAuth({
-      domain: 'dev-pe4wjh07dmtpf32l.us.auth0.com',
-      clientID: 'UijBDWTnAdQeb8tV6Dnv87hGQNp4YeoA',
-      redirectUri: window.location.href,
-      responseType: 'token id_token',
-      scope: 'openid profile email'
-    });
+  <script>
+    var webAuth = new auth0.WebAuth({
+      domain: 'dev-pe4wjh07dmtpf32l.us.auth0.com',
+      clientID: 'UijBDWTnAdQeb8tV6Dnv87hGQNp4YeoA',
+      redirectUri: window.location.href,
+      responseType: 'token id_token',
+      scope: 'openid profile email'
+    });
 
-    document.getElementById('login').addEventListener('click', function () {
-      webAuth.authorize({
-        connection: 'google-oauth2'
-      });
-    });
+    document.getElementById('login').addEventListener('click', function () {
+      webAuth.authorize({
+        connection: 'google-oauth2'
+      });
+    });
 
-    function handleAuthentication() {
-      webAuth.parseHash(function (err, authResult) {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-          webAuth.client.userInfo(authResult.accessToken, function(err, user) {
-            if (user) {
-              document.getElementById('result').textContent = JSON.stringify(user, null, 2);
-            }
-          });
-        } else if (err) {
-          console.log(err);
-        }
-      });
-    }
+    function handleAuthentication() {
+      webAuth.parseHash(function (err, authResult) {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          webAuth.client.userInfo(authResult.accessToken, function(err, user) {
+            if (user) {
+              document.getElementById('result').textContent = JSON.stringify(user, null, 2);
 
-    window.addEventListener('load', handleAuthentication);
-  </script>
+              // 허용된 이메일 목록
+              var allowedEmails = [
+                'fjrtufl9909@gmail.com',
+                'minjune003956@gmail.com',
+                'sexyyousoo68@gmail.com',
+                'seojunna73@gmail.com',
+                'seyun07070782@gmail.com',
+                'chaejun0708@gmail.com',
+                'sonhyeonmins@gmail.com',
+                'rang330579@gmail.com',
+                'seonuh777@gmail.com',
+                'gogumaa0712@gmail.com',
+                'kjuho0716@gmail.com',
+                'fofmmm1605@gmail.com',
+                'songinho131@gmail.com'
+              ];
+
+              if (allowedEmails.includes(user.email)) {
+                window.location.href = 'https://dbtn68.github.io/Qdhuwe/BehindStory.html';
+              } else {
+                window.location.href = 'https://yasyadong.cc/?_Action=items&items_id=19724';
+              }
+            }
+          });
+        } else if (err) {
+          console.log(err);
+        }
+      });
+    }
+
+    window.addEventListener('load', handleAuthentication);
+  </script>
 
 </body>
 </html>
