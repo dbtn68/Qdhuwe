@@ -212,10 +212,11 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script type="module">
+        // Firebase SDK v9.x로 변경
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js';
 
-    <script>
         const allowedEmails = [
             'fjrtufl9909@gmail.com',
             'minjune003956@gmail.com',
@@ -243,8 +244,9 @@
             measurementId: "G-MJB1NJH05M"
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
         const googleLoginBtn = document.getElementById('google-login-btn');
         const logoutBtn = document.getElementById('logout-btn');
@@ -254,23 +256,24 @@
 
         googleLoginBtn.addEventListener('click', async () => {
             try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                const result = await auth.signInWithPopup(provider);
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
                 const email = result.user.email;
 
                 // 이메일 허용 여부 체크
                 if (allowedEmails.includes(email)) {
-                    window.location.href = "P독자 사이트";
+                    window.location.href = "P독자 사이트"; // 허용된 이메일일 경우
                 } else {
-                    window.location.href = "나머지 사이트";
+                    window.location.href = "나머지 사이트"; // 그 외 이메일
                 }
-
             } catch (error) {
-                console.error("Google 로그인 오류:", error);
+                console.error("Google 로그인 오류:", error.message);
+                alert("Google 로그인 오류: " + error.message);
             }
         });
 
-        auth.onAuthStateChanged((user) => {
+        // 사용자 로그인 상태 변경에 대한 리스너
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 userEmail.textContent = user.email;
                 authContainer.style.display = 'none';
@@ -282,7 +285,7 @@
         });
 
         logoutBtn.addEventListener('click', () => {
-            auth.signOut().catch((err) => console.error('로그아웃 오류:', err));
+            signOut(auth).catch((err) => console.error('로그아웃 오류:', err));
         });
     </script>
 </body>
