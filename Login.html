@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Panel</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --error: #ff3333;
+            --radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            color: #666;
+            background: #f1f1f1;
+        }
+
+        .tab.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-pane.active { display: block; }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-google {
+            background: #4285F4;
+            margin-bottom: 1rem;
+        }
+
+        .btn-google:hover {
+            background: #357ae8;
+        }
+
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .divider span:first-child,
+        .divider span:last-child {
+            flex-grow: 1;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider span:nth-child(2) {
+            padding: 0 1rem;
+            color: #666;
+        }
+
+        .user-info {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            font-size: 14px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn {
+            margin-left: 8px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .auth-container { padding: 1rem; }
+            .tab-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="login">로그인</div>
+        </div>
+
+        <div class="tab-content">
+            <div id="login" class="tab-pane active">
+                <div class="social-login">
+                    <button id="google-login-btn" class="btn btn-google btn-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+                            <path fill="white" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
+                        </svg>
+                        Google로 로그인
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="user-info" class="user-info" style="display: none;">
+        <span id="user-email"></span>
+        <button id="logout-btn" class="logout-btn">로그아웃</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script>
+        const allowedEmails = [
+            'fjrtufl9909@gmail.com',
+            'minjune003956@gmail.com',
+            'sexyyousoo68@gmail.com',
+            'seojunna73@gmail.com',
+            'seyun07070782@gmail.com',
+            'chaejun0708@gmail.com',
+            'sonhyeonmins@gmail.com',
+            'rang330579@gmail.com',
+            'seonuh777@gmail.com',
+            'gogumaa0712@gmail.com',
+            'kjuho0716@gmail.com',
+            'fofmmm1605@gmail.com',
+            'songinho131@gmail.com'
+        ];
+
+        // Firebase 구성
+        const firebaseConfig = {
+            apiKey: "AIzaSyClivXSor5P8XJHw1rWYsVfxt8iU6_NgBA",
+            authDomain: "login-34bef.firebaseapp.com",
+            projectId: "login-34bef",
+            storageBucket: "login-34bef.appspot.com",
+            messagingSenderId: "888738257773",
+            appId: "1:888738257773:web:b1c5a99b41996c3ac2d864",
+            measurementId: "G-MJB1NJH05M"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userInfo = document.getElementById('user-info');
+        const authContainer = document.querySelector('.auth-container');
+        const userEmail = document.getElementById('user-email');
+
+        googleLoginBtn.addEventListener('click', async () => {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                const result = await auth.signInWithPopup(provider);
+                const email = result.user.email;
+
+                // 이메일 허용 여부 체크
+                if (allowedEmails.includes(email)) {
+                    window.location.href = "P독자 사이트";
+                } else {
+                    window.location.href = "나머지 사이트";
+                }
+
+            } catch (error) {
+                console.error("Google 로그인 오류:", error);
+            }
+        });
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                userEmail.textContent = user.email;
+                authContainer.style.display = 'none';
+                userInfo.style.display = 'flex';
+            } else {
+                userInfo.style.display = 'none';
+                authContainer.style.display = 'block';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut().catch((err) => console.error('로그아웃 오류:', err));
+        });
+    </script>
+</body>
+</html>
